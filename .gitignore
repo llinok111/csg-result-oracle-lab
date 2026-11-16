@@ -10,3 +10,5 @@ __pycache__/
 *.7z
 *.log
 tmp/
+state/
+.model-patch.yml
