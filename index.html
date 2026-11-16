@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>csg-result-oracle-lab — boolean result audit</title>
+<style>
+  body { margin: 0; background: #0d1117; color: #e6edf3; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  #hud { position: fixed; top: 0; left: 0; right: 0; padding: 8px 12px; background: #161b22ee; border-bottom: 1px solid #30363d; z-index: 10; }
+  #panel { position: fixed; left: 12px; bottom: 12px; padding: 8px 10px; background: #161b22ee; border: 1px solid #30363d; z-index: 10; }
+  button, select { background: #21262d; color: #e6edf3; border: 1px solid #30363d; padding: 4px 8px; font: inherit; cursor: pointer; margin-right: 4px; }
+  button.on { background: #1f6feb; border-color: #1f6feb; }
+  .ok { color: #3fb950; } .bad { color: #f85149; } .dim { color: #8b949e; }
+  #hud b { color: #e6edf3; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="hud">csg-result-oracle-lab &nbsp;|&nbsp; <span id="line">loading…</span></div>
+<div id="panel">
+  <select id="case"></select>
+  <button data-op="union" class="on">union</button>
+  <button data-op="intersect">intersect</button>
+  <button data-op="subtract">subtract</button>
+  <span class="dim">&nbsp;A=blue B=orange result=green (wireframe)</span>
+</div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

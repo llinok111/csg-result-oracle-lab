@@ -1,0 +1,47 @@
+{
+  "bench": "csg-result-oracle",
+  "workload": {
+    "corpusCases": 14,
+    "ops": 3,
+    "auditRows": 42,
+    "membershipPointsPerRow": 1000,
+    "membershipPointsTotal": 42000,
+    "rayTriangleTestsTotal": 2064000,
+    "description": "robust BSP boolean (42 rows) + full audit: topology, divergence volume, closed-form volume error, scale-free ray-membership membership oracle"
+  },
+  "coldStartMs": 174.026613,
+  "samplesMs": [
+    106.889107,
+    105.913114,
+    92.311695,
+    91.995132,
+    92.201268,
+    96.042719,
+    112.850594
+  ],
+  "total": {
+    "n": 7,
+    "min": 91.995132,
+    "median": 96.042719,
+    "p95": 112.850594,
+    "max": 112.850594,
+    "mean": 99.74337557142857,
+    "stddev": 8.62911471991901,
+    "relSD": 0.08651316110451363
+  },
+  "componentsMedianMs": {
+    "bspBooleanOnly": 2.226014,
+    "topologyAndVolumeOnly": 3.007495,
+    "memoryMembershipOracleOnly": 83.08240699999999
+  },
+  "throughput": {
+    "membershipProbesPerSecond": 437305,
+    "rayTriangleTestsPerSecond": 21490437
+  },
+  "env": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpus": 4
+  }
+}
