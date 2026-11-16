@@ -1,11 +1,15 @@
 // bench/verify.mjs — behavioural assertions for the CSG result oracle.
 // Every assertion prints the live number it checked. Exit 0 iff all pass.
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import * as m from '../src/core.mjs';
+
+const LOG = [];
+const origLog = console.log;
+console.log = (...a) => { const line = a.join(' '); LOG.push(line); origLog(line); };
 
 const doc = JSON.parse(readFileSync(new URL('../data/corpus.json', import.meta.url), 'utf8'));
 const SEED = 20261116;
-const EPS_K = 1e-9;
+const EPS_K = m.ORACLE_WELD_EPS_K;
 const REL = 1e-9;
 
 let pass = 0, fail = 0;
@@ -48,6 +52,19 @@ for (const r of rows) {
 }
 console.log(`--- verdicts: robust strict ${robustPass}/${rows.length}, robust solid-level ${robustSolid}/${rows.length} | naive strict ${naivePass}/${rows.length}, naive solid-level ${naiveSolid}/${rows.length} | ${disagreements} strict disagreements ---`);
 console.log(`--- membership sampled points: ${rows.reduce((s, r) => s + r.a.membership.points, 0)}, mismatches: ${rows.reduce((s, r) => s + r.a.membership.mismatch, 0)} ---`);
+{
+  const agg = rows.reduce((s, r) => ({
+    tris: s.tris + r.a.stats.triangles,
+    singleEdgesAll: s.singleEdgesAll + r.a.stats.singleEdgesAll,
+    tjunctionEdges: s.tjunctionEdges + r.a.stats.tjunctionEdges,
+    boundaryEdges: s.boundaryEdges + r.a.stats.boundaryEdges,
+    nonManifoldEdges: s.nonManifoldEdges + r.a.stats.nonManifoldEdges,
+    duplicateTriangles: s.duplicateTriangles + r.a.stats.duplicateTriangles,
+    rowsWithTjunction: s.rowsWithTjunction + (r.a.stats.tjunctionEdges > 0 ? 1 : 0),
+    rowsWithBoundary: s.rowsWithBoundary + (r.a.stats.boundaryEdges > 0 ? 1 : 0),
+  }), { tris: 0, singleEdgesAll: 0, tjunctionEdges: 0, boundaryEdges: 0, nonManifoldEdges: 0, duplicateTriangles: 0, rowsWithTjunction: 0, rowsWithBoundary: 0 });
+  console.log(`--- corpus aggregate: outTris=${agg.tris} singleEdgesAll=${agg.singleEdgesAll} (T-junction-split=${agg.tjunctionEdges}, remaining upper-bound real holes=${agg.boundaryEdges}) nonManifold=${agg.nonManifoldEdges} duplicateTris=${agg.duplicateTriangles} rowsWithTjunction=${agg.rowsWithTjunction}/${rows.length} rowsWithBoundary=${agg.rowsWithBoundary}/${rows.length} ---`);
+}
 
 // A1 corpus shape
 check('A1 corpus shape', doc.cases.length === 14 && doc.cases.filter(c => c.analytic).length === 13,
@@ -165,5 +182,27 @@ check('A1 corpus shape', doc.cases.length === 14 && doc.cases.filter(c => c.anal
     `mismatches per seed [1,7,424242] = ${out.join(' ')}`);
 }
 
+// A11 the oracle's welding tolerance is NOT a load-bearing magic constant:
+// solid-level verdicts must be invariant over 4 orders of magnitude.
+{
+  const sweep = [1e-12, 1e-11, 1e-10, 1e-9, 1e-8, 1e-7];
+  const res = sweep.map(k => {
+    let solid = 0, strict = 0;
+    const sig = new Set();
+    for (const c of doc.cases) for (const op of doc.ops) {
+      const R = m.csg(c.A, c.B, op);
+      const a = m.auditResult(c.A, c.B, R, op, { expectedVolume: c.expected ? c.expected[op] : undefined, membershipPoints: 0, epsK: k });
+      if (a.solidPass) solid++; if (a.pass) strict++;
+      sig.add(a.solidPass ? 'S' : 's');
+    }
+    return { k, solid, strict, sig: [...sig].join('') };
+  });
+  const allSolid = res.every(r => r.solid === res[0].solid);
+  console.log(`--- A11 tolerance sweep epsK -> solid-pass/strict-pass: ` + res.map(r => `${r.k}:${r.solid}/${r.strict}`).join(' ') + ' ---');
+  check('A11 solid-level verdicts invariant across epsK 1e-12..1e-7', allSolid,
+    `solid-pass by epsK = ${res.map(r => r.solid).join('/')} (of ${rows.length}); strict-pass = ${res.map(r => r.strict).join('/')}; measured invariant on this corpus too, unlike the 11-02 AREA_EPS case`);
+}
+
 console.log(`\nRESULT ${fail === 0 ? 'PASS' : 'FAIL'}: ${pass} passed / ${fail} failed`);
+writeFileSync(new URL('./verify-output.txt', import.meta.url), LOG.join('\n') + '\n');
 process.exit(fail === 0 ? 0 : 1);

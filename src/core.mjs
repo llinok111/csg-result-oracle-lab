@@ -172,6 +172,12 @@ export function membershipAudit(A, B, R, op, n, seed) {
   return { points: n, mismatch, witness, seed };
 }
 
+// Two DIFFERENT roles that deliberately have separate names and separate override points.
+// They currently default to the same number; the README does NOT claim independence of this
+// dimension — instead bench/verify.mjs assertion A11 sweeps it over 4 orders of magnitude.
+export const BOOLEAN_PLANE_EPS_K = 1e-9; // BSP half-space classification (DUT side)
+export const ORACLE_WELD_EPS_K = 1e-9;   // oracle vertex welding, relative to bboxDiag(inputs)
+
 // ---------------------------------------------------------------- BSP boolean (the DUT)
 const COPLANAR = 0, FRONT = 1, BACK = 2, SPANNING = 3;
 function planeFromPoints(a, b, c) {
@@ -247,7 +253,7 @@ function polysToMesh(polys) {
 export function csg(meshA, meshB, op, opts = {}) {
   const naive = !!opts.naiveCoplanar;
   const bb = bboxUnion(bbox(meshA), bbox(meshB));
-  const eps = (opts.epsK ?? 1e-9) * Math.max(bboxDiag(bb), Number.MIN_VALUE);
+  const eps = (opts.epsK ?? BOOLEAN_PLANE_EPS_K) * Math.max(bboxDiag(bb), Number.MIN_VALUE);
   const A = new Node(meshToPolys(meshA), eps, naive);
   const B = new Node(meshToPolys(meshB), eps, naive);
   if (op === 'union') { A.clipTo(B); B.clipTo(A); B.invert(); B.clipTo(A); B.invert(); A.build(B.allPolygons()); return polysToMesh(A.allPolygons()); }
@@ -266,7 +272,7 @@ export const MODES = [
 export const SOLID_MODES = ['DEGENERATE_TRIANGLE', 'INCONSISTENT_ORIENTATION', 'MEMBERSHIP_MISMATCH', 'BBOX_MISMATCH', 'VOLUME_DRIFT', 'EMPTY_RESULT'];
 export const MESH_MODES = ['BOUNDARY_EDGE', 'NON_MANIFOLD_EDGE', 'DUPLICATE_TRIANGLE'];
 export function auditResult(A, B, R, op, opts = {}) {
-  const epsK = opts.epsK ?? 1e-9;
+  const epsK = opts.epsK ?? ORACLE_WELD_EPS_K;
   const bb = bboxUnion(bbox(A), bbox(B));
   const eps = epsK * Math.max(bboxDiag(bb), Number.MIN_VALUE);
   const st = meshStats(R, eps);

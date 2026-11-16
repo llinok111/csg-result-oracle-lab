@@ -1,0 +1,62 @@
+--- corpus run (audit verdicts) ---
+ok   overlap-boxes    union     tris= 60 V=1.500000e+1 volRel=4.74e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   overlap-boxes    intersect tris= 12 V=1.000000e+0 volRel=5.55e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   overlap-boxes    subtract  tris= 36 V=7.000000e+0 volRel=1.27e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+FAIL coplanar-subset  union     tris= 16 V=8.000000e+0 volRel=1.11e-16 wt=n tj= 2 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT]
+FAIL coplanar-subset  intersect tris= 16 V=4.000000e+0 volRel=1.11e-16 wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT]
+FAIL coplanar-subset  subtract  tris= 16 V=4.000000e+0 volRel=1.11e-16 wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[NON_MANIFOLD_EDGE,BOUNDARY_EDGE]
+ok   identical        union     tris= 12 V=8.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=FAIL[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,VOLUME_DRIFT]
+ok   identical        intersect tris= 12 V=8.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=FAIL[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,VOLUME_DRIFT]
+ok   identical        subtract  tris=  0 V=0.000000e+0 volRel=0.00e+0 wt=n tj= 0 mem=0/4000 modes=- | naive=FAIL[NON_MANIFOLD_EDGE]
+FAIL nested           union     tris= 49 V=6.400000e+1 volRel=1.11e-16 wt=n tj= 3 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+ok   nested           intersect tris= 12 V=1.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+FAIL nested           subtract  tris= 61 V=6.300000e+1 volRel=4.51e-16 wt=n tj= 3 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+ok   disjoint         union     tris= 24 V=2.000000e+0 volRel=2.22e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   disjoint         intersect tris=  0 V=0.000000e+0 volRel=0.00e+0 wt=n tj= 0 mem=0/4000 modes=- | naive=ok
+ok   disjoint         subtract  tris= 12 V=1.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   face-touch       union     tris= 20 V=2.000000e+0 volRel=0.00e+0 wt=Y tj= 0 mem=0/4000 modes=- | naive=FAIL[NON_MANIFOLD_EDGE]
+ok   face-touch       intersect tris=  0 V=0.000000e+0 volRel=0.00e+0 wt=n tj= 0 mem=0/4000 modes=- | naive=ok
+ok   face-touch       subtract  tris= 12 V=1.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=FAIL[NON_MANIFOLD_EDGE,VOLUME_DRIFT]
+FAIL edge-touch       union     tris= 24 V=2.000000e+0 volRel=0.00e+0 wt=n tj= 0 mem=0/4000 modes=NON_MANIFOLD_EDGE | naive=FAIL[NON_MANIFOLD_EDGE]
+ok   edge-touch       intersect tris=  0 V=0.000000e+0 volRel=0.00e+0 wt=n tj= 0 mem=0/4000 modes=- | naive=ok
+ok   edge-touch       subtract  tris= 12 V=1.000000e+0 volRel=1.11e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+FAIL thin-sliver      union     tris= 16 V=8.000000e+0 volRel=0.00e+0 wt=n tj= 2 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+FAIL thin-sliver      intersect tris= 20 V=8.000000e-6 volRel=0.00e+0 wt=n tj= 8 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT]
+FAIL thin-sliver      subtract  tris= 32 V=7.999992e+0 volRel=0.00e+0 wt=n tj= 8 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+FAIL near-coincident  union     tris= 24 V=1.200000e+1 volRel=1.48e-16 wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE,VOLUME_DRIFT]
+FAIL near-coincident  intersect tris= 16 V=4.000000e+0 volRel=1.11e-16 wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT]
+FAIL near-coincident  subtract  tris= 16 V=4.000000e+0 volRel=0.00e+0 wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+FAIL rotated-cross    union     tris= 38 V=1.056569e+1 volRel=  n/a   wt=n tj= 0 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+FAIL rotated-cross    intersect tris= 16 V=1.434315e+0 volRel=  n/a   wt=n tj= 0 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,BOUNDARY_EDGE]
+FAIL rotated-cross    subtract  tris= 40 V=6.565685e+0 volRel=  n/a   wt=n tj= 4 mem=0/4000 modes=BOUNDARY_EDGE | naive=FAIL[BOUNDARY_EDGE]
+ok   scale-0.000001   union     tris= 60 V=1.500000e-17 volRel=2.05e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-0.000001   intersect tris= 12 V=1.000000e-18 volRel=3.85e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-0.000001   subtract  tris= 36 V=7.000000e-18 volRel=4.40e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-0.001      union     tris= 60 V=1.500000e-8 volRel=4.41e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-0.001      intersect tris= 12 V=1.000000e-9 volRel=2.07e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-0.001      subtract  tris= 36 V=7.000000e-9 volRel=3.55e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000       union     tris= 60 V=1.500000e+10 volRel=5.09e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000       intersect tris= 12 V=1.000000e+9 volRel=5.96e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000       subtract  tris= 36 V=7.000000e+9 volRel=1.36e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000000    union     tris= 60 V=1.500000e+19 volRel=5.46e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000000    intersect tris= 12 V=1.000000e+18 volRel=6.40e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+ok   scale-1000000    subtract  tris= 36 V=7.000000e+18 volRel=1.46e-16 wt=Y tj= 0 mem=0/4000 modes=- | naive=ok
+--- verdicts: robust strict 27/42, robust solid-level 42/42 | naive strict 22/42, naive solid-level 34/42 | 5 strict disagreements ---
+--- membership sampled points: 168000, mismatches: 0 ---
+--- corpus aggregate: outTris=1056 singleEdgesAll=200 (T-junction-split=50, remaining upper-bound real holes=150) nonManifold=1 duplicateTris=0 rowsWithTjunction=12/42 rowsWithBoundary=14/42 ---
+PASS  A1 corpus shape  ::  cases=14 analytic=13
+PASS  A2 closed-form volume vs divergence-theorem volume (watertight rows)  ::  worst relative error=6.400e-16 (tol 1e-9), offending rows=0
+PASS  A3 independent ray-membership oracle on robust results  ::  points=168000 mismatches=0 rows_with_mismatch=0
+PASS  A4a mesh corruption negative control detected  ::  6/6 :: drop-triangle=BOUNDARY_EDGE flip-triangle=BOUNDARY_EDGE jitter-vertex=BOUNDARY_EDGE scale-triangle=BOUNDARY_EDGE duplicate-triangle=DUPLICATE_TRIANGLE scale-all=BBOX_MISMATCH
+PASS  A5a semantic negative control detected  ::  3/3 :: return-a=[BBOX_MISMATCH,VOLUME_DRIFT,MEMBERSHIP_MISMATCH] wrong-op=[BBOX_MISMATCH,VOLUME_DRIFT,MEMBERSHIP_MISMATCH] drop-b=[BBOX_MISMATCH,VOLUME_DRIFT,MEMBERSHIP_MISMATCH]
+PASS  A5b cannot be explained by topology alone (watertight yet flagged)  ::  watertight-but-wrong controls=3/3 (this is the dimension a topology-only audit is blind to)
+PASS  A6 naive coplanar-unsafe boolean is caught by the oracle  ::  naive failures=20/42 :: coplanar-subset/union[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT] coplanar-subset/intersect[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,BOUNDARY_EDGE,VOLUME_DRIFT] coplanar-subset/subtract[NON_MANIFOLD_EDGE,BOUNDARY_EDGE] identical/union[DUPLICATE_TRIANGLE,NON_MANIFOLD_EDGE,VOLUME_DRIFT]
+PASS  A7 inclusion-exclusion V(AuB)+V(AnB)=V(A)+V(B) on watertight rows  ::  cases tested=5 worst relative residual=2.068e-16 (scale-0.001), tol 1e-9
+PASS  A8 scale invariance of verdicts (1e-6..1e6)  ::  scaled rows=15 distinct signatures=3 :: union:clean:true | intersect:clean:true | subtract:clean:true
+PASS  A8b volume scales as s^3 across the scale ladder  ::  union V(s)/V(1)=1.000e+0 1.000e-18 1.000e-9 1.000e+9 1.000e+18 for s=1,0.000001,0.001,1000,1000000 worst deviation=8.882e-16
+PASS  A9 determinism of the audit payload  ::  payload bytes=538 identical=true
+PASS  A10 zero membership mismatches across 3 independent seeds  ::  mismatches per seed [1,7,424242] = 0 0 0
+--- A11 tolerance sweep epsK -> solid-pass/strict-pass: 1e-12:42/27 1e-11:42/27 1e-10:42/27 1e-9:42/27 1e-8:42/27 1e-7:42/27 ---
+PASS  A11 solid-level verdicts invariant across epsK 1e-12..1e-7  ::  solid-pass by epsK = 42/42/42/42/42/42 (of 42); strict-pass = 27/27/27/27/27/27; measured invariant on this corpus too, unlike the 11-02 AREA_EPS case
+
+RESULT PASS: 13 passed / 0 failed
